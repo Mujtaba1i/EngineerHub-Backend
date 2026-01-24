@@ -2,7 +2,7 @@
 from fastapi import FastAPI, Depends
 from controllers.teas import router as TeasRouter
 from controllers.comments import router as CommentsRouter
-from controllers.users import router as UsersRouter
+from controllers.auth import router as UsersRouter
 from typing import Optional
 
 app = FastAPI()

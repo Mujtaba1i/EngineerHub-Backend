@@ -82,3 +82,6 @@ def delete_class(
     db.commit()
     return {"message": "Class deleted"}
 
+
+
+
