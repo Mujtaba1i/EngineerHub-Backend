@@ -6,6 +6,20 @@ from database import get_db
 
 router = APIRouter()
 
+# GET ALL ============================================================================
+@router.get("/roles", response_model=list[RoleSchema])
+def get_roles(db: Session = Depends(get_db)):
+    return db.query(RoleModel).all()
+
+# GET ONE ===========================================================================
+@router.get("/roles/{role_id}", response_model=RoleSchema)
+def get_single_user(role_id: int, db: Session = Depends(get_db)):
+    user = db.query(RoleModel).filter(RoleModel.id == role_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+
+# CREATE ============================================================================
 @router.post("/roles", response_model=RoleSchema)
 def create_role(role: RoleCreateSchema, db: Session = Depends(get_db)):
     new_role = RoleModel(
@@ -19,10 +33,7 @@ def create_role(role: RoleCreateSchema, db: Session = Depends(get_db)):
     db.refresh(new_role)
     return new_role
 
-@router.get("/roles", response_model=list[RoleSchema])
-def get_roles(db: Session = Depends(get_db)):
-    return db.query(RoleModel).all()
-
+# UPDATE =============================================================================
 @router.put("/roles/{role_id}/approve")
 def approve_role(role_id: int, db: Session = Depends(get_db)):
     role = db.query(RoleModel).filter(RoleModel.id == role_id).first()
