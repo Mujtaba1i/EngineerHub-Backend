@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.student_class import StudentClassModel
 from models.user import UserModel
-from serializers.student_class import (StudentClassSchema, AddStudentByUniSchema )
+from serializers.student_class import (StudentClassSchema, CreateStudentClassSchema )
 from database import get_db
 
 router = APIRouter()
@@ -10,7 +10,7 @@ router = APIRouter()
 
 # ADD STUDENTS IN THE CLASSES ===========================================================
 @router.post("/students-classes")
-def add_student(data: AddStudentByUniSchema, db: Session = Depends(get_db)):
+def add_student(data: CreateStudentClassSchema, db: Session = Depends(get_db)):
     student = db.query(UserModel).filter( UserModel.uni_id == data.uni_id).first()
 
     if not student:

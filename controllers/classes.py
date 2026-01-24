@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.classes import ClassModel
-from serializers.class_ import ClassSchema, ClassUpdateSchema, ClassSchema
+from models.user import UserModel , UserRole
+from serializers.class_serializer import ClassSchema,CreateClassSchema,UpdateClassSchema
 from database import get_db
 from dependencies.get_current_user import get_current_user
 
@@ -23,7 +24,7 @@ def get_single_class(class_id: int, db: Session = Depends(get_db)):
 # CREATE ===================================================================================
 @router.post("/classes", response_model=ClassSchema) 
 def create_class(
-    data: ClassCreateSchema,
+    data: CreateClassSchema,
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
@@ -46,7 +47,7 @@ def create_class(
 @router.put("/classes/{class_id}", response_model=ClassSchema)
 def update_class(
     class_id: int,
-    data: ClassUpdateSchema,
+    data: UpdateClassSchema,
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
