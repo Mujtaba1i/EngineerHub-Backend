@@ -5,7 +5,7 @@ from serializers.class_ import ClassSchema, ClassUpdateSchema, ClassSchema
 from database import get_db
 from dependencies.get_current_user import get_current_user
 
-router = APIRouter(prefix="/classes", tags=["Classes"]) ##خلنا نجوف شنو سالفتها المفروض تكون في الميين
+router = APIRouter() 
 
 # GET ALL ===================================================================================
 @router.get("/classes", response_model=list[ClassSchema])
