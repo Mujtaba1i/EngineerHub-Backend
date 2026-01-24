@@ -23,8 +23,8 @@ def create_test_users():
 
     # Doctor
     user3 = UserModel(
-        name="Dr. Omar",
-        email="Omar@uob.edu.bh",
+        name="Omar",
+        email="omar@omar.o",
         role=UserRole.DOCTOR,
         department="Software Engineering",
         phone_num="+9999999",

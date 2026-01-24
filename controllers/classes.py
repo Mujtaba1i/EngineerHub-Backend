@@ -21,6 +21,9 @@ def get_single_class(class_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Class not found")
     return cls
 
+
+# ONLY DR CAN CREATE CLASSES
+
 # CREATE ===================================================================================
 @router.post("/classes", response_model=ClassSchema) 
 def create_class(
@@ -29,19 +32,17 @@ def create_class(
     current_user: UserModel = Depends(get_current_user)
 ):
     if current_user.role != UserRole.DOCTOR:
-        raise HTTPException(403, "Only doctors can create classes")
+        raise HTTPException(status_code=403, detail="Only doctors can create classes")
 
     new_class = ClassModel(
         name=data.name,
-        doctor_id=current_user.user_roles[0].id
+        doctor_id=current_user.id
     )
 
     db.add(new_class)
     db.commit()
     db.refresh(new_class)
     return new_class
-
-# ONLY DR CAN CREATE CLASSES
 
 # UPDATE ================================================================
 @router.put("/classes/{class_id}", response_model=ClassSchema)
@@ -54,10 +55,10 @@ def update_class(
     cls = db.query(ClassModel).filter(ClassModel.id == class_id).first()
 
     if not cls:
-        raise HTTPException(404, "Class not found")
+        raise HTTPException(status_code=404, detail="Class not found")
 
-    if cls.doctor_id != current_user.user_roles[0].id:
-        raise HTTPException(403, "Not allowed")
+    if cls.doctor_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not allowed")
 
     cls.name = data.name
     db.commit()
@@ -74,10 +75,10 @@ def delete_class(
     cls = db.query(ClassModel).filter(ClassModel.id == class_id).first()
 
     if not cls:
-        raise HTTPException(404, "Class not found")
+        raise HTTPException(status_code=404, detail="Class not found")
 
     if cls.doctor_id != current_user.user_roles[0].id:
-        raise HTTPException(403, "Not allowed")
+        raise HTTPException(status_code=403, detail="Not allowed")
 
     db.delete(cls)
     db.commit()

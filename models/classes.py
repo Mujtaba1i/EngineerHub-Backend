@@ -10,7 +10,7 @@ class ClassModel(BaseModel):
     id = Column(Integer, primary_key=True, index=True)
 
     name = Column(String, nullable=False)
-    doctor_id = Column(Integer, ForeignKey("roles.id", ondelete="CASCADE"),nullable=False)
-    
-    doctor_role = relationship("RoleModel", back_populates="classes", passive_deletes=True)
+    doctor_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+
+    doctor = relationship("UserModel", back_populates="classes", passive_deletes=True)
     enrollments = relationship("StudentClassModel",back_populates="class_",cascade="all, delete-orphan",passive_deletes=True)

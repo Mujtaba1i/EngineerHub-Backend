@@ -19,4 +19,3 @@ class RoleModel(BaseModel):
     approval = Column(Boolean, nullable=True)
 
     user = relationship("UserModel", back_populates="user_roles", foreign_keys=[user_id])
-    classes = relationship("ClassModel", back_populates="doctor_role", cascade="all, delete-orphan")

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.user import UserModel
-from serializers.user import UserSchema, CreateUserSchema, UpdateUserSchema
+from serializers.user import UserSchema
 from database import get_db
 from dependencies.get_current_user import get_current_user
 
@@ -21,31 +21,31 @@ def get_single_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-# CREATE ============================================================================
-@router.post("/users", response_model=UserSchema)
-def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
-    new_user = UserModel(**user.dict())
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+# # CREATE ============================================================================
+# @router.post("/users", response_model=UserSchema)
+# def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
+#     new_user = UserModel(**user.dict())
+#     db.add(new_user)
+#     db.commit()
+#     db.refresh(new_user)
+#     return new_user
 
 # UPDATE =============================================================================
-@router.put("/users/{user_id}", response_model=UserSchema)
-def update_user(user_id: int, user: UpdateUserSchema, db: Session = Depends(get_db), current_user: UserModel = Depends(get_current_user)):
-    db_user = db.query(UserModel).filter(UserModel.id == user_id).first()
-    if not db_user:
-        raise HTTPException(status_code=404, detail="User not found")
+# @router.put("/users/{user_id}", response_model=UserSchema)
+# def update_user(user_id: int, user: UpdateUserSchema, db: Session = Depends(get_db), current_user: UserModel = Depends(get_current_user)):
+#     db_user = db.query(UserModel).filter(UserModel.id == user_id).first()
+#     if not db_user:
+#         raise HTTPException(status_code=404, detail="User not found")
 
-    if db_user.id != current_user.id:
-        raise HTTPException(status_code=403, detail="Operation forbidden")
+#     if db_user.id != current_user.id:
+#         raise HTTPException(status_code=403, detail="Operation forbidden")
 
-    user_data = user.dict(exclude_unset=True)
-    for key, value in user_data.items():
-        setattr(db_user, key, value)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+#     user_data = user.dict(exclude_unset=True)
+#     for key, value in user_data.items():
+#         setattr(db_user, key, value)
+#     db.commit()
+#     db.refresh(db_user)
+#     return db_user
 
 # DELETE ===============================================================================
 @router.delete("/users/{user_id}")

@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 from typing import Optional
+from .user import UserSchema
 
 class StudentClassSchema(BaseModel):
     id: Optional[int] = None
-    student_id: int
+    uni_id: int
     class_id: int
-    student: Optional[dict] = None
-    class_: Optional[dict] = None
+    student: Optional[UserSchema] = None
 
     class Config:
         orm_mode = True
