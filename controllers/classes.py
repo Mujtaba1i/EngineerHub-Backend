@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.classes import ClassModel
-from serializers.class_ import ClassSchema
+from serializers.class_ import ClassSchema, ClassUpdateSchema, ClassSchema
 from database import get_db
+from dependencies.get_current_user import get_current_user
 
-router = APIRouter()
+router = APIRouter(prefix="/classes", tags=["Classes"]) ##خلنا نجوف شنو سالفتها المفروض تكون في الميين
 
 # GET ALL ===================================================================================
 @router.get("/classes", response_model=list[ClassSchema])
@@ -20,12 +21,64 @@ def get_single_class(class_id: int, db: Session = Depends(get_db)):
     return cls
 
 # CREATE ===================================================================================
-@router.post("/classes", response_model=ClassSchema)
-def create_class(class_data: ClassSchema, db: Session = Depends(get_db)):
-    new_class = ClassModel(name=class_data.name, doctor_id=class_data.doctor_id)
+@router.post("/classes", response_model=ClassSchema) 
+def create_class(
+    data: ClassCreateSchema,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    if current_user.role != UserRole.DOCTOR:
+        raise HTTPException(403, "Only doctors can create classes")
+
+    new_class = ClassModel(
+        name=data.name,
+        doctor_id=current_user.user_roles[0].id
+    )
+
     db.add(new_class)
     db.commit()
     db.refresh(new_class)
     return new_class
+
 # ONLY DR CAN CREATE CLASSES
+
+# UPDATE ================================================================
+@router.put("/classes/{class_id}", response_model=ClassSchema)
+def update_class(
+    class_id: int,
+    data: ClassUpdateSchema,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    cls = db.query(ClassModel).filter(ClassModel.id == class_id).first()
+
+    if not cls:
+        raise HTTPException(404, "Class not found")
+
+    if cls.doctor_id != current_user.user_roles[0].id:
+        raise HTTPException(403, "Not allowed")
+
+    cls.name = data.name
+    db.commit()
+    db.refresh(cls)
+    return cls
+
+# DELETE =================================================================
+@router.delete("/classes/{class_id}")
+def delete_class(
+    class_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    cls = db.query(ClassModel).filter(ClassModel.id == class_id).first()
+
+    if not cls:
+        raise HTTPException(404, "Class not found")
+
+    if cls.doctor_id != current_user.user_roles[0].id:
+        raise HTTPException(403, "Not allowed")
+
+    db.delete(cls)
+    db.commit()
+    return {"message": "Class deleted"}
 
