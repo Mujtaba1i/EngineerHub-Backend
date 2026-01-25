@@ -7,6 +7,16 @@ class UserRegistrationSchema(BaseModel):
     password: str
     role: str
 
+    department: Optional[str] = None
+    phone_num: Optional[int] = None
+    office_num: Optional[int] = None
+    uni_id: Optional[int] = None
+    major: Optional[str] = None
+    license: Optional[str] = None
+    class Config:
+        orm_mode = True
+
+
 class UserSchema(BaseModel):
     id: Optional[int] = None
     name: str
@@ -29,5 +39,6 @@ class UserTokenSchema(BaseModel):
         orm_mode = True
 
 class UserLoginSchema(BaseModel):
-    uni_id: int
+    email: Optional[str] = None
+    uni_id: Optional[int]=None
     password: str

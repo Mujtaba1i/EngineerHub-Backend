@@ -23,7 +23,7 @@ try:
     db.add_all(roles_list)
     db.commit()
 
-    classes_list = create_classes(roles_list)
+    classes_list = create_classes(user_list)
     db.add_all(classes_list)
     db.commit()
 

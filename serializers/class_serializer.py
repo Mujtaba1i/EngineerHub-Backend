@@ -1,13 +1,15 @@
 from pydantic import BaseModel
 from typing import Optional, List
+from .role import RoleSchema
+from .student_class import StudentClassSchema
 from .user import UserSchema
 
 class ClassSchema(BaseModel):
     id: Optional[int] = None
     name: str
     doctor_id: int
-    doctor_role: Optional[dict] = None
-    enrollments: List[dict] = []
+    doctor: Optional[UserSchema] = None
+    enrollments: List[StudentClassSchema] = []
 
     class Config:
         orm_mode = True
