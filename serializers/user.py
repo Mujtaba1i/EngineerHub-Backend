@@ -8,8 +8,8 @@ class UserRegistrationSchema(BaseModel):
     role: str
 
     department: Optional[str] = None
-    phone_num: Optional[int] = None
-    office_num: Optional[int] = None
+    phone_num: Optional[str] = None
+    office_num: Optional[str] = None
     uni_id: Optional[int] = None
     major: Optional[str] = None
     license: Optional[str] = None
@@ -39,6 +39,5 @@ class UserTokenSchema(BaseModel):
         orm_mode = True
 
 class UserLoginSchema(BaseModel):
-    email: Optional[str] = None
-    uni_id: Optional[int]=None
+    name: str
     password: str
