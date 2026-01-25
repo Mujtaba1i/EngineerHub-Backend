@@ -21,10 +21,10 @@ def validate_user_by_role(role: str, user):
         raise HTTPException(status_code=400,detail=f"Missing required fields for role '{role}': {', '.join(missing_fields)}")
 
 
-@router.post("/auth/register", response_model=UserSchema)
+@router.post("/auth/register", response_model=UserTokenSchema)
 def create_user(user: UserRegistrationSchema, db: Session = Depends(get_db)):
+    print('test')
     existing_user = db.query(UserModel).filter( (UserModel.name == user.name) | (UserModel.email == user.email) ).first()
-
     if existing_user:
         raise HTTPException(status_code=409, detail="name or email already exists")
     
@@ -37,15 +37,15 @@ def create_user(user: UserRegistrationSchema, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    return new_user
+    token = new_user.generate_token()
+    return {"token": token, "message": "Registration successful"}
 
 @router.post('/auth/login', response_model=UserTokenSchema)
 def login(user: UserLoginSchema, db: Session = Depends(get_db)):
-    if user.email:
-        db_user = db.query(UserModel).filter(UserModel.email == user.email).first()
-    elif user.uni_id:
-        db_user = db.query(UserModel).filter(UserModel.uni_id == user.uni_id).first()
+    if user.name:
+        db_user = db.query(UserModel).filter(UserModel.name == user.name).first()
     
+
     if not db_user or not db_user.verify_password(user.password):
         raise HTTPException(status_code=401, detail=f"Invalid credintials")
     

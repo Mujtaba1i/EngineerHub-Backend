@@ -2,14 +2,24 @@
 from fastapi import FastAPI, Depends
 from controllers.auth import router as AuthRouter
 from controllers.classes import router as ClassesRouter
-from controllers.role import router as RoleRouter
 from controllers.students_classes import router as Students_ClassesRouter
 from controllers.users import router as UsersRouter
-from typing import Optional
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = ['*']
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,     # Which sites can call this API
+    allow_methods=["*"],       # Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],       # Allow all headers (e.g., Content-Type, Authorization)
+    # NOTE: We are NOT using credentials in this simple lesson,
+    # so we are not setting allow_credentials.
+)
+
 app.include_router(ClassesRouter, prefix='/api')
-app.include_router(RoleRouter, prefix='/api')
 app.include_router(AuthRouter, prefix='/api')
 app.include_router(Students_ClassesRouter, prefix='/api')
 app.include_router(UsersRouter, prefix="/api") 

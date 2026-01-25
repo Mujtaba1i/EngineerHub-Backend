@@ -35,7 +35,6 @@ class UserModel(BaseModel):
     license = Column(String, nullable=True)
 
     # Relationships
-    user_roles = relationship("RoleModel", back_populates="user", cascade="all, delete-orphan")
     enrollments = relationship("StudentClassModel", back_populates="student", cascade="all, delete-orphan")
     classes = relationship("ClassModel", back_populates="doctor", cascade="all, delete-orphan")
 

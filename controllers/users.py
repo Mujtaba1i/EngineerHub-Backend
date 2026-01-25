@@ -21,14 +21,6 @@ def get_single_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-# # CREATE ============================================================================
-# @router.post("/users", response_model=UserSchema)
-# def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
-#     new_user = UserModel(**user.dict())
-#     db.add(new_user)
-#     db.commit()
-#     db.refresh(new_user)
-#     return new_user
 
 # UPDATE =============================================================================
 # @router.put("/users/{user_id}", response_model=UserSchema)
