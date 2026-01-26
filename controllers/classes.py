@@ -77,7 +77,7 @@ def delete_class(
     if not cls:
         raise HTTPException(status_code=404, detail="Class not found")
 
-    if cls.doctor_id != current_user.user_roles[0].id:
+    if cls.doctor_id != current_user.id and (current_user.role == UserRole.DOCTOR):
         raise HTTPException(status_code=403, detail="Not allowed")
 
     db.delete(cls)
