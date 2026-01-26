@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from config.environment import db_URI
-from data.role_data import create_roles, create_classes, create_enrollments
+from data.role_data import create_classes, create_enrollments
 from data.user_data import user_list
 from models.base import Base
 
@@ -17,10 +17,6 @@ try:
     db = SessionLocal()
 
     db.add_all(user_list)
-    db.commit()
-
-    roles_list = create_roles(user_list)
-    db.add_all(roles_list)
     db.commit()
 
     classes_list = create_classes(user_list)
