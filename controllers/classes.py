@@ -1,8 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+# Models
 from models.classes import ClassModel
 from models.user import UserModel , UserRole
+# Serializers
+from serializers.enrollment import EnrollmentSchema
 from serializers.class_serializer import ClassSchema,CreateClassSchema,UpdateClassSchema
+# Dependencies
 from database import get_db
 from dependencies.get_current_user import get_current_user
 
@@ -12,6 +16,11 @@ router = APIRouter()
 @router.get("/classes", response_model=list[ClassSchema])
 def get_classes(db: Session = Depends(get_db)):
     return db.query(ClassModel).all()
+
+@router.get("/student-classes", response_model=list[EnrollmentSchema])
+def get_classes(db: Session = Depends(get_db), current_user: UserModel = Depends(get_current_user)):
+    return current_user.enrollments
+
 
 # GET ONE ===================================================================================
 @router.get("/classes/{class_id}", response_model=ClassSchema)
