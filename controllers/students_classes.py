@@ -32,9 +32,7 @@ def add_student(
             detail="You are not the owner of this class"
         )
 
-    student = db.query(UserModel).filter(
-        UserModel.id == data.student_id
-    ).first()
+    student = db.query(UserModel).filter(UserModel.uni_id == data.student_id).first()
 
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
@@ -66,12 +64,10 @@ def remove_student(
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
-    # 1️⃣ نتأكد إن الكلاس موجود
     cls = db.query(ClassModel).filter(ClassModel.id == class_id).first()
     if not cls:
         raise HTTPException(status_code=404, detail="Class not found")
 
-    # 2️⃣ نتحقق من الصلاحيات
     is_owner_doctor = (
         current_user.role == UserRole.DOCTOR
         and cls.doctor_id == current_user.id
@@ -88,7 +84,6 @@ def remove_student(
             detail="Not allowed to remove this student"
         )
 
-    # 3️⃣ نتأكد إن التسجيل موجود
     enrollment = db.query(StudentClassModel).filter(
         StudentClassModel.student_id == student_id,
         StudentClassModel.class_id == class_id
