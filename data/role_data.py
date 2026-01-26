@@ -1,16 +1,5 @@
-from models.role import RoleModel
 from models.classes import ClassModel
 from models.student_class import StudentClassModel
-
-
-def create_roles(users):
-    return [
-        RoleModel(user=users[0], major="Electrical Engineering"),
-        RoleModel(user=users[1], major="Chimical Engineering"),
-        RoleModel(user=users[2], department="Software Engineering"),
-        RoleModel(user=users[3], approval=True),
-    ]
-
 
 def create_classes(users):
     return [

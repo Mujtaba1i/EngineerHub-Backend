@@ -4,7 +4,6 @@ from .user import UserSchema
 
 class StudentClassSchema(BaseModel):
     id: Optional[int] = None
-    uni_id: int
     class_id: int
     student: Optional[UserSchema] = None
 
