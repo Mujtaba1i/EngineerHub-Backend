@@ -39,6 +39,7 @@ class UserModel(BaseModel):
     enrollments = relationship("StudentClassModel", back_populates="student", cascade="all, delete-orphan")
     classes = relationship("ClassModel", back_populates="doctor", cascade="all, delete-orphan")
     projects = relationship("GraduateProjectModel", back_populates="user" , cascade="all, delete-orphan")
+    posts = relationship("PostModel", back_populates="institute", cascade="all, delete-orphan")
 
 
     def set_password(self, password: str) -> None:
