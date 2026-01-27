@@ -8,6 +8,7 @@ class GraduateProjectCreateSchema(BaseModel):
     major: str
     graduation_year: int
 
+    poster: str
     contact_email: str
     contact_phone: Optional[str] = None
     linkedin: Optional[str] = None
@@ -25,6 +26,7 @@ class GraduateProjectSchema(BaseModel):
     major: str
     graduation_year: int
 
+    poster: str
     contact_email: str
     contact_phone: Optional[str] = None
     linkedin: Optional[str] = None
@@ -42,6 +44,7 @@ class GraduateProjectUpdateSchema(BaseModel):
     major: Optional[str] = None
     graduation_year: Optional[int] = None
 
+    poster: Optional[str] = None
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
     linkedin: Optional[str] = None
