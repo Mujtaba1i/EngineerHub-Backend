@@ -16,4 +16,4 @@ class GraduateProjectModel(BaseModel):
     linkedin = Column(String, nullable=True)
 
     user_id = Column(Integer, ForeignKey("users.id"))
-    user = relationship("UserModel", back_populates="projects",cascade="all, delete-orphan")
+    user = relationship("UserModel", back_populates="projects")
