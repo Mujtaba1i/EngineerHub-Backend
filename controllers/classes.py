@@ -42,7 +42,6 @@ def create_class(
 ):
     if current_user.role != UserRole.DOCTOR:
         raise HTTPException(status_code=403, detail="Only doctors can create classes")
-
     new_class = ClassModel(
         name=data.name,
         doctor_id=current_user.id
