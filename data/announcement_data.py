@@ -2,9 +2,6 @@ from datetime import datetime, timedelta
 from models.announcement import AnnouncementModel
 
 def create_announcements(classes):
-    """
-    Create test announcements for the seeded classes
-    """
     # Get current date for relative dates
     today = datetime.now()
     
@@ -63,5 +60,12 @@ def create_announcements(classes):
             content="Reminder: Office hours today from 2 PM to 4 PM in CS-210. Come with your questions about the upcoming project!",
             event_date=today + timedelta(hours=14),
             class_=classes[1]  # AI Accelerator
+        ),
+        
+        AnnouncementModel(
+            title="Getting Food",
+            content="Order Super Baik",
+            event_date=today + timedelta(hours=14),
+            class_=classes[2]
         ),
     ]

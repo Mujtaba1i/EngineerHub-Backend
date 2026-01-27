@@ -10,6 +10,16 @@ def create_test_users():
         uni_id=202002179,
     )
     user1.set_password("Help!")
+    
+    # Student - Mujtaba
+    user6 = UserModel(
+        name="Abdulrahman",
+        email="Abdulrahman@stu.uob.edu.bh",
+        role=UserRole.STUDENT,
+        major="Albaik Specilist",
+        uni_id=25245,
+    )
+    user6.set_password("Albaik")
 
     # Graduate - Sajeda
     user2 = UserModel(
@@ -32,6 +42,17 @@ def create_test_users():
     )
     user3.set_password("one more thing")
 
+    # Doctor
+    user5 = UserModel(
+        name="Denis",
+        email="Denis@Denis.do",
+        role=UserRole.DOCTOR,
+        department="Software Engineering",
+        phone_num="+44444444",
+        office_num="CS-120",
+    )
+    user5.set_password("malgoom")
+
     # Institution
     user4 = UserModel(
         name="I don't know",
@@ -41,7 +62,7 @@ def create_test_users():
     )
     user4.set_password("Give me your money")
 
-    return [user1, user2, user3, user4]
+    return [user1, user2, user3, user4, user5, user6]
 
 
 user_list = create_test_users()

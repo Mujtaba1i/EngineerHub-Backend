@@ -5,6 +5,7 @@ def create_classes(users):
     return [
         ClassModel(name="SEB-11", doctor=users[2]),
         ClassModel(name="AI Accelerator", doctor=users[2]),
+        ClassModel(name="Albaik Class", doctor=users[4]),
     ]
 
 
@@ -13,4 +14,5 @@ def create_enrollments(users, classes):
         StudentClassModel(student=users[0], class_=classes[0]),
         StudentClassModel(student=users[0], class_=classes[1]),
         StudentClassModel(student=users[1], class_=classes[0]),
+        StudentClassModel(student=users[5], class_=classes[2]),
     ]
