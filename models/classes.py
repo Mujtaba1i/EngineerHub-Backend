@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from .base import BaseModel
 from .student_class import StudentClassModel
+from .announcement import AnnouncementModel
 
 class ClassModel(BaseModel):
 
@@ -14,3 +15,4 @@ class ClassModel(BaseModel):
 
     doctor = relationship("UserModel", back_populates="classes", passive_deletes=True)
     enrollments = relationship("StudentClassModel",back_populates="class_",cascade="all, delete-orphan",passive_deletes=True)
+    announcements = relationship("AnnouncementModel", back_populates="class_", cascade="all, delete-orphan", passive_deletes=True)
