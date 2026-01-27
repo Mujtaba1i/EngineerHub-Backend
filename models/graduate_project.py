@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base import BaseModel
+from .user import UserModel
 
 class GraduateProjectModel(BaseModel):
     __tablename__ = "graduate_projects"

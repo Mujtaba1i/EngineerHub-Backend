@@ -5,7 +5,6 @@ from sqlalchemy import Column, Enum, Integer, String
 from sqlalchemy.orm import relationship
 from config.environment import secret
 from .base import BaseModel
-from .graduate_project import GraduateProjectModel
 import jwt
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -25,21 +24,21 @@ class UserModel(BaseModel):
     name = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
-    role = Column(Enum(UserRole, name="user_role_enum", create_constraint=True),nullable=False)
+    role = Column(Enum(UserRole, name="user_role_enum", create_constraint=True), nullable=False)
 
     # Depends on the role
     major = Column(String, nullable=True)
     uni_id = Column(Integer, nullable=True, unique=True, index=True)
     department = Column(String, nullable=True)
-    phone_num = Column(String, nullable=True, unique= True)
-    office_num = Column(String, nullable=True, unique= True)
+    phone_num = Column(String, nullable=True, unique=True)
+    office_num = Column(String, nullable=True, unique=True)
     license = Column(String, nullable=True)
 
     # Relationships
     enrollments = relationship("StudentClassModel", back_populates="student", cascade="all, delete-orphan")
     classes = relationship("ClassModel", back_populates="doctor", cascade="all, delete-orphan")
-    projects = relationship("GraduateProjectModel", back_populates="user" , cascade="all, delete-orphan")
-
+    notes = relationship("NoteModel", back_populates="uploader", cascade="all, delete-orphan")
+    note_likes = relationship("NoteLikeModel", back_populates="user", cascade="all, delete-orphan")
 
     def set_password(self, password: str) -> None:
         self.password = pwd_context.hash(password)
