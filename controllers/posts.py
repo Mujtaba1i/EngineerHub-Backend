@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from models.user import  UserModel
+from models.user import  UserModel, UserRole
 from models.post import PostModel
 from serializers.post import PostCreateSchema, PostUpdateSchema, PostSchema
 from database import get_db
@@ -26,9 +26,16 @@ def get_single_post(post_id: int, current_institute: UserModel = Depends(get_cur
 # CREATE =============================================================================
 @router.post("/posts", response_model=PostSchema)
 def create_post(post: PostCreateSchema, current_institute: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
-    if current_institute.role != "institution":
+
+    if current_institute.role != UserRole.INSTITUTION:
         raise HTTPException(status_code=403, detail="Only institutions can create posts")
-    new_post = PostModel(**post.dict(), institute_id=current_institute.id)
+    try:
+        post_data = post.model_dump() 
+    except AttributeError:
+        post_data = post.dict() 
+    
+    new_post = PostModel(**post_data, institute_id=current_institute.id)
+    
     db.add(new_post)
     db.commit()
     db.refresh(new_post)

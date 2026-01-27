@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship
 from config.environment import secret
 from .base import BaseModel
 from .graduate_project import GraduateProjectModel
+from .post import PostModel
 import jwt
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
