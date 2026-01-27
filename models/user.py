@@ -37,6 +37,8 @@ class UserModel(BaseModel):
     # Relationships
     enrollments = relationship("StudentClassModel", back_populates="student", cascade="all, delete-orphan")
     classes = relationship("ClassModel", back_populates="doctor", cascade="all, delete-orphan")
+    projects = relationship("GraduateProjectModel", back_populates="user" , cascade="all, delete-orphan")
+
 
     def set_password(self, password: str) -> None:
         self.password = pwd_context.hash(password)
