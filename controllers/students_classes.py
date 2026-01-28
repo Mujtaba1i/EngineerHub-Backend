@@ -74,8 +74,8 @@ def remove_student(
     )
 
     is_self_student = (
-        current_user.role == UserRole.STUDENT
-        and current_user.id == student_id
+        (current_user.role == UserRole.STUDENT or current_user.role == UserRole.GRADUATE)
+        and int(current_user.id) == int(student_id)
     )
 
     if not (is_owner_doctor or is_self_student):
