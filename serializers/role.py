@@ -9,7 +9,7 @@ class RoleSchema(BaseModel):
     approval: Optional[bool] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CreateRoleSchema(BaseModel):
     user_id: int
@@ -17,7 +17,7 @@ class CreateRoleSchema(BaseModel):
     department: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UpdateRoleSchema(BaseModel):
     major: Optional[str] = None
@@ -25,4 +25,4 @@ class UpdateRoleSchema(BaseModel):
     approval: Optional[bool] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

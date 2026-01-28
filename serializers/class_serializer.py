@@ -12,16 +12,16 @@ class ClassSchema(BaseModel):
     enrollments: List[StudentClassSchema] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CreateClassSchema(BaseModel):
     name: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UpdateClassSchema(BaseModel):
     name: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True

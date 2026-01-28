@@ -8,18 +8,18 @@ class StudentClassSchema(BaseModel):
     student: Optional[UserSchema] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CreateStudentClassSchema(BaseModel):
     student_id: int
     class_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UpdateStudentClassSchema(BaseModel):
     student_id: int
     class_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

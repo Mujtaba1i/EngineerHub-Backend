@@ -12,7 +12,7 @@ class AnnouncementSchema(BaseModel):
     updated_at: Optional[datetime] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CreateAnnouncementSchema(BaseModel):
     title: str
@@ -21,7 +21,7 @@ class CreateAnnouncementSchema(BaseModel):
     class_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UpdateAnnouncementSchema(BaseModel):
     title: Optional[str] = None
@@ -29,4 +29,4 @@ class UpdateAnnouncementSchema(BaseModel):
     event_date: Optional[datetime] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -14,7 +14,7 @@ class UserRegistrationSchema(BaseModel):
     major: Optional[str] = None
     license: Optional[str] = None
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class UserSchema(BaseModel):
@@ -30,13 +30,13 @@ class UserSchema(BaseModel):
     license: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserTokenSchema(BaseModel):
     token: str
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserLoginSchema(BaseModel):
     name: str
