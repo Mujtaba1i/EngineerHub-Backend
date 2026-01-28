@@ -10,12 +10,12 @@ def create_graduate_projects(users):
                 "and automatically sends emergency notifications with GPS location "
                 "after an accident occurs."
             ),
-            poster="https://example.com/posters/car-accident-prevention.png",
+            poster="https://i.imgur.com/XdLrjzV.jpeg",
             major="Electrical Engineering",
-            graduation_year=2024,
+            graduation_year=2025,
             contact_email="Mujtaba@stu.uob.edu.bh",
-            contact_phone="+97312345678",
-            linkedin="https://linkedin.com/in/mujtaba",
+            contact_phone="+973 39232337",
+            linkedin="https://linkedin.com/in/mujtaba1i",
             user=users[0],  # Mujtaba
         ),
 
@@ -26,12 +26,12 @@ def create_graduate_projects(users):
                 "patterns and provides optimization recommendations to reduce "
                 "power consumption and operational costs."
             ),
-            poster=None,
+            poster='https://i.imgur.com/guH9fRv.jpeg',
             major="Chemical Engineering",
-            graduation_year=2023,
+            graduation_year=2025,
             contact_email="Sajeda@stu.uob.edu.bh",
-            contact_phone=None,
-            linkedin="https://linkedin.com/in/sajeda-hussain",
+            contact_phone='+973 12345678',
+            linkedin="https://linkedin.com/in/sajedataqi",
             user=users[1],  # Sajeda
         ),
     ]

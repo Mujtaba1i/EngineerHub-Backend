@@ -4,6 +4,7 @@ from config.environment import db_URI
 from data.role_data import create_classes, create_enrollments
 from data.user_data import user_list
 from data.announcement_data import create_announcements
+from data.post_data import create_posts
 from models.base import Base
 from data.graduate_project_data import create_graduate_projects
 
@@ -48,6 +49,12 @@ try:
     db.add_all(announcements_list)
     db.commit()
 
+    # Seed posts
+    print("✓ Seeding posts...")
+    posts_list = create_posts(user_list)
+    db.add_all(posts_list)
+    db.commit()
+
     db.close()
 
     print("\n🎉 Database seeding complete!")
@@ -56,6 +63,7 @@ try:
     print(f"   - {len(enrollments_list)} enrollments created")
     print(f"   - {len(announcements_list)} announcements created")
     print(f"   - {len(graduate_projects)} graduate projects created")
+    print(f"   - {len(posts_list)} posts created")
 
     print("\n👋 Happy testing!")
 except Exception as e:
