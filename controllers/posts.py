@@ -11,19 +11,21 @@ router = APIRouter()
 
 # GET ALL ============================================================================
 @router.get("/posts", response_model=list[PostSchema])
-def get_my_posts(current_institute: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
-    posts = db.query(PostModel).filter(PostModel.institute_id == current_institute.id).all()
+def get_all_posts(current_user: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
+
+    posts = db.query(PostModel).all()
     return posts
 
-# GET ONE ===========================================================================
+# GET ONE  ===========================================================================
 @router.get("/posts/{post_id}", response_model=PostSchema)
-def get_single_post(post_id: int, current_institute: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
-    post = db.query(PostModel).filter(PostModel.id == post_id, PostModel.institute_id == current_institute.id).first()
+def get_single_post(post_id: int, current_user: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
+  
+    post = db.query(PostModel).filter(PostModel.id == post_id).first()
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     return post
 
-# CREATE =============================================================================
+# CREATE  =============================================================================
 @router.post("/posts", response_model=PostSchema)
 def create_post(post: PostCreateSchema, current_institute: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
 
@@ -44,9 +46,11 @@ def create_post(post: PostCreateSchema, current_institute: UserModel = Depends(g
 # UPDATE =============================================================================
 @router.put("/posts/{post_id}", response_model=PostSchema)
 def update_post(post_id: int, post_update: PostUpdateSchema, current_institute: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
+   
     post = db.query(PostModel).filter(PostModel.id == post_id, PostModel.institute_id == current_institute.id).first()
     if not post:
-        raise HTTPException(status_code=404, detail="Post not found")
+        raise HTTPException(status_code=404, detail="Post not found or you don't have permission to edit it")
+    
     for key, value in post_update.dict(exclude_unset=True).items():
         setattr(post, key, value)
     db.commit()
@@ -56,9 +60,11 @@ def update_post(post_id: int, post_update: PostUpdateSchema, current_institute: 
 # DELETE ===============================================================================
 @router.delete("/posts/{post_id}")
 def delete_post(post_id: int, current_institute: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
+  
     post = db.query(PostModel).filter(PostModel.id == post_id, PostModel.institute_id == current_institute.id).first()
     if not post:
-        raise HTTPException(status_code=404, detail="Post not found")
+        raise HTTPException(status_code=404, detail="Post not found or you don't have permission to delete it")
+    
     db.delete(post)
     db.commit()
     return {"detail": "Post deleted successfully"}
