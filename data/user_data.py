@@ -11,13 +11,13 @@ def create_test_users():
     )
     user1.set_password("Help!")
     
-    # Student - Mujtaba
+    # Student - Abdulrahman
     user6 = UserModel(
         name="Abdulrahman",
         email="Abdulrahman@stu.uob.edu.bh",
         role=UserRole.STUDENT,
         major="Albaik Specilist",
-        uni_id=25245,
+        uni_id=25245, #T9 MEME if you get it you are a LEGEND!
     )
     user6.set_password("Albaik")
 
