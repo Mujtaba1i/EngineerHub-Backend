@@ -25,7 +25,7 @@ class NoteSchema(BaseModel):
     download_url: Optional[str] = None  # Presigned URL for download
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class CreateNoteSchema(BaseModel):
@@ -37,7 +37,7 @@ class CreateNoteSchema(BaseModel):
     description: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class UpdateNoteSchema(BaseModel):
@@ -49,7 +49,7 @@ class UpdateNoteSchema(BaseModel):
     description: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class NoteLikeSchema(BaseModel):
@@ -57,4 +57,4 @@ class NoteLikeSchema(BaseModel):
     is_like: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

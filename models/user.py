@@ -5,6 +5,8 @@ from sqlalchemy import Column, Enum, Integer, String
 from sqlalchemy.orm import relationship
 from config.environment import secret
 from .base import BaseModel
+from .graduate_project import GraduateProjectModel
+from .note import NoteModel
 import jwt
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -38,6 +40,7 @@ class UserModel(BaseModel):
     enrollments = relationship("StudentClassModel", back_populates="student", cascade="all, delete-orphan")
     classes = relationship("ClassModel", back_populates="doctor", cascade="all, delete-orphan")
     notes = relationship("NoteModel", back_populates="uploader", cascade="all, delete-orphan")
+    projects = relationship("GraduateProjectModel", back_populates="user" , cascade="all, delete-orphan")
     note_likes = relationship("NoteLikeModel", back_populates="user", cascade="all, delete-orphan")
 
     def set_password(self, password: str) -> None:

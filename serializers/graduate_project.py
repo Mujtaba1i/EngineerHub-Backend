@@ -15,7 +15,7 @@ class GraduateProjectCreateSchema(BaseModel):
     poster: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class GraduateProjectSchema(BaseModel):
@@ -35,7 +35,7 @@ class GraduateProjectSchema(BaseModel):
     user_id: Optional[int] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class GraduateProjectUpdateSchema(BaseModel):
@@ -51,4 +51,4 @@ class GraduateProjectUpdateSchema(BaseModel):
     poster: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

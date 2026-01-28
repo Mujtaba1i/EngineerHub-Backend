@@ -5,6 +5,8 @@ from data.role_data import create_classes, create_enrollments
 from data.user_data import user_list
 from data.announcement_data import create_announcements
 from models.base import Base
+from data.graduate_project_data import create_graduate_projects
+
 
 engine = create_engine(db_URI)
 SessionLocal = sessionmaker(bind=engine)
@@ -20,6 +22,12 @@ try:
     # Seed users
     print("✓ Seeding users...")
     db.add_all(user_list)
+    db.commit()
+
+    # Seed graduate projects
+    print("✓ Seeding graduate projects...")
+    graduate_projects = create_graduate_projects(user_list)
+    db.add_all(graduate_projects)
     db.commit()
 
     # Seed classes
@@ -47,6 +55,8 @@ try:
     print(f"   - {len(classes_list)} classes created")
     print(f"   - {len(enrollments_list)} enrollments created")
     print(f"   - {len(announcements_list)} announcements created")
+    print(f"   - {len(graduate_projects)} graduate projects created")
+
     print("\n👋 Happy testing!")
 except Exception as e:
     print("❌ An error occurred during seeding:", e)
