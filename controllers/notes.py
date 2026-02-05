@@ -473,6 +473,12 @@ def recover_azure_file(
             status_code=403,
             detail="Only students and graduates can upload notes"
         )
+
+    if not container_client:
+        raise HTTPException(
+            status_code=503,
+            detail="Azure storage is not configured"
+        )
     
     # Check if file already has a record
     existing_note = db.query(NoteModel).filter(NoteModel.file_key == file_key).first()

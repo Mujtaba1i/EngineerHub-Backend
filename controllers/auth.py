@@ -23,7 +23,6 @@ def validate_user_by_role(role: str, user):
 
 @router.post("/auth/register", response_model=UserTokenSchema)
 def create_user(user: UserRegistrationSchema, db: Session = Depends(get_db)):
-    print('test')
     existing_user = db.query(UserModel).filter( (UserModel.name == user.name) | (UserModel.email == user.email) ).first()
     if existing_user:
         raise HTTPException(status_code=409, detail="name or email already exists")
@@ -42,6 +41,7 @@ def create_user(user: UserRegistrationSchema, db: Session = Depends(get_db)):
 
 @router.post('/auth/login', response_model=UserTokenSchema)
 def login(user: UserLoginSchema, db: Session = Depends(get_db)):
+    db_user = None
     if user.name:
         db_user = db.query(UserModel).filter(UserModel.name == user.name).first()
     
